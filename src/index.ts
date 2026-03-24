@@ -12,6 +12,8 @@ export {
 export { default } from "./plugin";
 export { default as VoicePageAgentPlugin } from "./plugin";
 export type {
+  VoicePageAgentButtonStyleOptions,
+  VoicePageAgentButtonTextOptions,
   ResolvedVoicePageAgentOptions,
   RuntimePageAgent,
   VoicePageAgentOptions,

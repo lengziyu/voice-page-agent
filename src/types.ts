@@ -26,6 +26,19 @@ export type RuntimePageAgent = {
 
 export type RuntimePageAgentCtor = new (config: Record<string, unknown>) => RuntimePageAgent;
 
+export type VoicePageAgentButtonTextOptions = {
+  startText?: string;
+  wakeOnText?: string;
+  openText?: string;
+};
+
+export type VoicePageAgentButtonStyleOptions = {
+  wakeButtonBackground?: string;
+  wakeButtonTextColor?: string;
+  openButtonBackground?: string;
+  openButtonTextColor?: string;
+};
+
 export type VoicePageAgentOptions = {
   pageAgent: Record<string, unknown>;
   wakeWord?: string | string[];
@@ -37,6 +50,8 @@ export type VoicePageAgentOptions = {
   recognitionLang?: string;
   showAgentWhenWake?: boolean;
   autoStart?: boolean;
+  buttonText?: VoicePageAgentButtonTextOptions;
+  buttonStyle?: VoicePageAgentButtonStyleOptions;
 };
 
 export type ResolvedVoicePageAgentOptions = {
@@ -50,7 +65,8 @@ export type ResolvedVoicePageAgentOptions = {
   recognitionLang: string;
   showAgentWhenWake: boolean;
   autoStart: boolean;
+  buttonText?: VoicePageAgentButtonTextOptions;
+  buttonStyle?: VoicePageAgentButtonStyleOptions;
 };
 
 export type VoiceStateListener = (state: VoicePageAgentState) => void;
-

@@ -8,5 +8,11 @@ export default defineConfig({
   clean: true,
   treeshake: true,
   target: "es2019",
+  noExternal: [
+    /^page-agent$/,
+    /^@page-agent\//,
+    /^ai-motion$/,
+    /^chalk$/,
+    /^zod$/,
+  ],
 });
-

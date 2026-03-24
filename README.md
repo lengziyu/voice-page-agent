@@ -51,7 +51,18 @@ Use this shape:
   commandMaxWindowMs: 22000,           // max command listening window
   recognitionLang: "zh-CN",            // SpeechRecognition language
   showAgentWhenWake: true,             // auto-open panel when wake hit
-  autoStart: false                     // start wake on init
+  autoStart: false,                    // start wake on init
+  buttonText: {
+    startText: "开始唤醒",
+    wakeOnText: "语音唤醒中",
+    openText: "打开助手",
+  },
+  buttonStyle: {
+    wakeButtonBackground: "linear-gradient(135deg, #22c1ff, #3366ff)",
+    wakeButtonTextColor: "#ffffff",
+    openButtonBackground: "linear-gradient(135deg, #ffa84a, #ff5f6d)",
+    openButtonTextColor: "#ffffff",
+  }
 }
 ```
 
@@ -72,6 +83,15 @@ app.use(VoicePageAgentPlugin, {
   },
   wakeWord: "布丁布丁",
   enableHomophoneMatch: true,
+  buttonText: {
+    startText: "开始语音",
+    wakeOnText: "语音进行中",
+    openText: "网页助手",
+  },
+  buttonStyle: {
+    wakeButtonBackground: "linear-gradient(135deg, #38bdf8, #2563eb)",
+    openButtonBackground: "linear-gradient(135deg, #f59e0b, #ef4444)",
+  },
 });
 app.mount("#app");
 ```
@@ -101,6 +121,15 @@ Vue.use(VoicePageAgentPlugin, {
     language: "zh-CN",
   },
   wakeWord: "布丁布丁",
+  buttonText: {
+    startText: "开始语音",
+    wakeOnText: "语音进行中",
+    openText: "网页助手",
+  },
+  buttonStyle: {
+    wakeButtonBackground: "linear-gradient(135deg, #38bdf8, #2563eb)",
+    openButtonBackground: "linear-gradient(135deg, #f59e0b, #ef4444)",
+  },
 });
 ```
 
@@ -120,6 +149,15 @@ Vue.use(VoicePageAgentPlugin, {
     language: "zh-CN",
   },
   wakeWord: "布丁布丁",
+  buttonText: {
+    startText: "开始语音",
+    wakeOnText: "语音进行中",
+    openText: "网页助手",
+  },
+  buttonStyle: {
+    wakeButtonBackground: "linear-gradient(135deg, #38bdf8, #2563eb)",
+    openButtonBackground: "linear-gradient(135deg, #f59e0b, #ef4444)",
+  },
 });
 ```
 
@@ -136,6 +174,25 @@ You can use `VoicePageAgentButton` globally after plugin install:
 ```html
 <VoicePageAgentButton />
 ```
+
+The component injects a built-in gradient style (same visual direction across Vue2 / Vue2.7 / Vue3).
+
+You can override by props:
+
+- `startText`
+- `wakeOnText`
+- `openText`
+- `wakeButtonBackground`
+- `wakeButtonTextColor`
+- `openButtonBackground`
+- `openButtonTextColor`
+
+You can also override these classes in your app:
+
+- `.voice-page-agent-root`
+- `.voice-page-agent-actions`
+- `.voice-page-agent-btn`
+- `.voice-page-agent-status`
 
 It renders:
 - wake button (only when mic permission is not granted)
