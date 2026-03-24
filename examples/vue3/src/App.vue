@@ -12,7 +12,15 @@
 
     <p class="status">状态：{{ state.status }} | {{ state.message }}</p>
 
-    <VoicePageAgentButton />
+    <VoicePageAgentButton
+      style="
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 2147483640;
+        width: min(360px, calc(100vw - 24px));
+      "
+    />
   </main>
 </template>
 
@@ -80,4 +88,3 @@ button {
   color: #555;
 }
 </style>
-

@@ -8,7 +8,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "page-agent": "latest",
     "voice-page-agent": "file:../..",
     "vue": "^2.7.16"
   },

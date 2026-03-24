@@ -3,5 +3,7 @@ import vue2 from "@vitejs/plugin-vue2";
 
 export default defineConfig({
   plugins: [vue2()],
+  optimizeDeps: {
+    exclude: ["voice-page-agent", "page-agent"],
+  },
 });
-

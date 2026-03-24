@@ -12,7 +12,15 @@
 
     <p class="status">状态：{{ state.status }} | {{ state.message }}</p>
 
-    <VoicePageAgentButton />
+    <VoicePageAgentButton
+      style="
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 2147483640;
+        width: min(360px, calc(100vw - 24px));
+      "
+    />
   </main>
 </template>
 
@@ -44,7 +52,29 @@ export default {
       this.$voicePageAgent.stopWake();
     },
     async openAgent() {
-      await this.$voicePageAgent.openAgent();
+      try {
+        const agent = await this.$voicePageAgent.openAgent();
+        const hasPanelNode = Boolean(document.getElementById("page-agent-runtime_agent-panel"));
+        console.log("[voice-page-agent][vue2] openAgent", {
+          hasPanelNode,
+          hasPanelApi: Boolean(agent && agent.panel),
+          state: this.$voicePageAgent.snapshot,
+        });
+        if (!hasPanelNode) {
+          this.state = {
+            ...this.state,
+            status: "error",
+            message: "未检测到 page-agent 面板节点，请查看控制台日志",
+          };
+        }
+      } catch (error) {
+        console.error("[voice-page-agent][vue2] openAgent failed", error);
+        this.state = {
+          ...this.state,
+          status: "error",
+          message: error instanceof Error ? error.message : "打开助手失败",
+        };
+      }
     },
     async runDemo() {
       await this.$voicePageAgent.runCommand("打开工具页面");
@@ -81,4 +111,3 @@ button {
   color: #555;
 }
 </style>
-

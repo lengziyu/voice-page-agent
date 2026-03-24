@@ -41,6 +41,8 @@ Use this shape:
     model: "qwen3.5-plus",
     apiKey: "NA",
     language: "zh-CN",
+    enablePanel: true,                 // keep page-agent panel visible
+    enableMask: false,                 // recommended for broader browser/GPU compatibility
     // ...any other page-agent options
   },
   wakeWord: "布丁布丁",                 // string or string[]

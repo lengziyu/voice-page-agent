@@ -20,92 +20,112 @@ const VOICE_PAGE_AGENT_STYLE_ID = "voice-page-agent-style";
 
 const VOICE_PAGE_AGENT_STYLE_TEXT = `
 .voice-page-agent-root {
-  --voice-page-agent-wake-bg: linear-gradient(135deg, #22c1ff, #3366ff);
+  --voice-page-agent-wake-bg: linear-gradient(135deg, #7f67ff, #5a8dff);
   --voice-page-agent-wake-color: #ffffff;
-  --voice-page-agent-open-bg: linear-gradient(135deg, #ffa84a, #ff5f6d);
-  --voice-page-agent-open-color: #ffffff;
-  --voice-page-agent-status-color: #e2e8f0;
-  --voice-page-agent-surface-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.9));
-  --voice-page-agent-surface-border: rgba(148, 163, 184, 0.3);
+  --voice-page-agent-open-bg: linear-gradient(180deg, #ffffff, #f7f4ff);
+  --voice-page-agent-open-color: #30264d;
+  --voice-page-agent-status-color: #5f5a79;
 
-  position: relative;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 12px;
-  margin-top: 12px;
-  padding: 14px;
-  border-radius: 16px;
-  border: 1px solid var(--voice-page-agent-surface-border);
-  background: var(--voice-page-agent-surface-bg);
-  box-shadow:
-    0 16px 34px -26px rgba(15, 23, 42, 0.9),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  overflow: hidden;
-}
-
-.voice-page-agent-root::before {
-  content: "";
-  position: absolute;
-  inset: -35% -10% auto;
-  height: 58%;
-  background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0));
-  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .voice-page-agent-actions {
-  position: relative;
-  z-index: 1;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
   gap: 10px;
 }
 
 .voice-page-agent-btn {
-  border: 0;
+  border: 1px solid transparent;
   border-radius: 999px;
-  padding: 9px 16px;
-  font-size: 13px;
-  line-height: 1.3;
+  padding: 10px 16px;
+  font-size: 16px;
+  line-height: 1.2;
   font-weight: 600;
-  letter-spacing: 0.1px;
+  letter-spacing: 0;
   cursor: pointer;
-  box-shadow:
-    0 10px 20px -14px rgba(15, 23, 42, 1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
-  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+  white-space: nowrap;
+  user-select: none;
 }
 
 .voice-page-agent-btn--wake {
   background: var(--voice-page-agent-wake-bg);
   color: var(--voice-page-agent-wake-color);
+  border-color: rgba(129, 111, 214, 0.4);
+  box-shadow:
+    0 8px 20px -14px rgba(95, 77, 170, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
 }
 
 .voice-page-agent-btn--open {
   background: var(--voice-page-agent-open-bg);
   color: var(--voice-page-agent-open-color);
+  border-color: rgba(169, 149, 255, 0.48);
+  box-shadow:
+    0 8px 18px -14px rgba(102, 80, 188, 0.7),
+    0 2px 8px rgba(155, 129, 247, 0.18);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 10px 20px;
 }
 
 .voice-page-agent-btn:hover {
   transform: translateY(-1px);
-  filter: brightness(1.03);
-  box-shadow:
-    0 14px 24px -14px rgba(15, 23, 42, 0.95),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  filter: brightness(1.01);
 }
 
 .voice-page-agent-btn:active {
   transform: translateY(0);
-  filter: brightness(0.98);
+  filter: brightness(0.99);
+}
+
+.voice-page-agent-open-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 2px solid #9d84ff;
+  color: #9d84ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+.voice-page-agent-open-icon::before {
+  content: "✦";
+}
+
+.voice-page-agent-open-label {
+  line-height: 1;
 }
 
 .voice-page-agent-status {
   margin: 0;
-  position: relative;
-  z-index: 1;
+  max-width: min(420px, calc(100vw - 24px));
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(180, 166, 255, 0.56);
+  background: rgba(250, 248, 255, 0.9);
   color: var(--voice-page-agent-status-color);
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.4;
-  opacity: 0.95;
+  box-shadow: 0 8px 20px -18px rgba(98, 78, 170, 0.7);
+  backdrop-filter: blur(6px);
 }
 `;
 
@@ -123,10 +143,10 @@ const DEFAULT_BUTTON_CONFIG: VoicePageAgentButtonResolvedConfig = {
   startText: "开启语音唤醒",
   wakeOnText: "语音唤醒中",
   openText: "网页助手",
-  wakeButtonBackground: "linear-gradient(135deg, #22c1ff, #3366ff)",
+  wakeButtonBackground: "linear-gradient(135deg, #7f67ff, #5a8dff)",
   wakeButtonTextColor: "#ffffff",
-  openButtonBackground: "linear-gradient(135deg, #ffa84a, #ff5f6d)",
-  openButtonTextColor: "#ffffff",
+  openButtonBackground: "linear-gradient(180deg, #ffffff, #f7f4ff)",
+  openButtonTextColor: "#30264d",
 };
 
 let globalButtonConfig: VoicePageAgentButtonResolvedConfig = {
@@ -214,6 +234,17 @@ export function useVoicePageAgent() {
   throw new Error("voice-page-agent: controller not found, please install plugin first.");
 }
 
+function resolveClickProps(handler: () => void): Record<string, unknown> {
+  return {
+    // Vue3
+    onClick: handler,
+    // Vue2 render function listeners
+    on: {
+      click: handler,
+    },
+  };
+}
+
 export const VoicePageAgentButton = defineComponent({
   name: "VoicePageAgentButton",
   props: {
@@ -276,7 +307,7 @@ export const VoicePageAgentButton = defineComponent({
     };
 
     const handleOpenClick = () => {
-      void controller.openAgent();
+      void controller.toggleAgentPanel();
     };
 
     return () => {
@@ -307,7 +338,7 @@ export const VoicePageAgentButton = defineComponent({
                 {
                   type: "button",
                   class: "voice-page-agent-btn voice-page-agent-btn--wake",
-                  onClick: handleWakeClick,
+                  ...resolveClickProps(handleWakeClick),
                 },
                 state.value.enabled ? resolvedWakeOnText : resolvedStartText
               )
@@ -317,9 +348,12 @@ export const VoicePageAgentButton = defineComponent({
             {
               type: "button",
               class: "voice-page-agent-btn voice-page-agent-btn--open",
-              onClick: handleOpenClick,
+              ...resolveClickProps(handleOpenClick),
             },
-            resolvedOpenText
+            [
+              h("span", { class: "voice-page-agent-open-icon", "aria-hidden": "true" }),
+              h("span", { class: "voice-page-agent-open-label" }, resolvedOpenText),
+            ]
           ),
         ]),
         props.showStatus

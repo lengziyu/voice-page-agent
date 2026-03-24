@@ -10,6 +10,9 @@ app.use(VoicePageAgentPlugin, {
     model: "qwen3.5-plus",
     apiKey: "NA",
     language: "zh-CN",
+    enablePanel: true,
+    // Better compatibility for older GPUs / browsers.
+    enableMask: false,
   },
   wakeWord: "布丁布丁",
   enableHomophoneMatch: true,
@@ -19,11 +22,7 @@ app.use(VoicePageAgentPlugin, {
   buttonText: {
     startText: "开始语音",
     wakeOnText: "语音唤醒中",
-    openText: "打开助手",
-  },
-  buttonStyle: {
-    wakeButtonBackground: "linear-gradient(135deg, #22c1ff, #3366ff)",
-    openButtonBackground: "linear-gradient(135deg, #ffa84a, #ff5f6d)",
+    openText: "网页助手",
   },
 });
 

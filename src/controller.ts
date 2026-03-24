@@ -202,6 +202,15 @@ export class VoicePageAgentController {
     return this.ensureAgent();
   }
 
+  async toggleAgentPanel() {
+    if (typeof window === "undefined") return;
+    if (this.isAgentPanelVisible()) {
+      this.hideAgentPanel();
+      return;
+    }
+    await this.openAgent();
+  }
+
   async startWake() {
     if (this.disposed) return;
     if (!this.hasSpeechSupport()) {
@@ -412,26 +421,57 @@ export class VoicePageAgentController {
   private async ensureAgent() {
     if (typeof window === "undefined") return null;
     const runtimeWindow = window as VoiceWindow;
-    if (runtimeWindow.pageAgent) {
-      runtimeWindow.pageAgent.panel.show();
-      runtimeWindow.pageAgent.panel.expand();
-      return runtimeWindow.pageAgent;
+    const existingAgent = runtimeWindow.pageAgent;
+    if (existingAgent) {
+      const panelNode = document.getElementById("page-agent-runtime_agent-panel");
+      const canReuse = Boolean(existingAgent.panel && panelNode?.isConnected && !existingAgent.disposed);
+      if (canReuse && existingAgent.panel) {
+        existingAgent.panel.show();
+        existingAgent.panel.expand();
+        return existingAgent;
+      }
+      // HMR or stale runtime instance might exist without panel.
+      // Dispose and recreate to ensure `openAgent()` is always recoverable.
+      try {
+        existingAgent.dispose?.("RECREATE_WITH_PANEL");
+      } catch {
+        // noop
+      }
+      runtimeWindow.pageAgent = undefined;
     }
     if (this.initAgentPromise) return this.initAgentPromise;
 
     this.initAgentPromise = (async () => {
       const mod = await import("page-agent");
       const Agent = mod.PageAgent as unknown as RuntimePageAgentCtor;
-      const agent = new Agent(this.options.pageAgent);
+      let agent: RuntimePageAgent;
+      try {
+        agent = new Agent(this.options.pageAgent);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err || "");
+        const webglUnavailable = /webgl2 is required/i.test(message) || /webgl/i.test(message);
+        if (!webglUnavailable) {
+          throw err;
+        }
+        const fallbackConfig = {
+          ...this.options.pageAgent,
+          enableMask: false,
+        };
+        agent = new Agent(fallbackConfig);
+      }
       runtimeWindow.pageAgent = agent;
+      if (!agent.panel) {
+        throw new Error("Page Agent panel is disabled. Set pageAgent.enablePanel=true.");
+      }
       agent.panel.show();
       agent.panel.expand();
       return agent;
     })()
       .catch((err) => {
+        console.error("[voice-page-agent] ensureAgent failed:", err);
         this.patchState({
           status: "error",
-          message: err instanceof Error ? err.message : "Page Agent 初始化失败",
+          message: this.resolveAgentInitErrorMessage(err),
         });
         return null;
       })
@@ -440,6 +480,35 @@ export class VoicePageAgentController {
       });
 
     return this.initAgentPromise;
+  }
+
+  private isAgentPanelVisible() {
+    const panelNode = document.getElementById("page-agent-runtime_agent-panel");
+    if (!panelNode) return false;
+    const style = window.getComputedStyle(panelNode);
+    return style.display !== "none" && style.visibility !== "hidden" && style.opacity !== "0";
+  }
+
+  private hideAgentPanel() {
+    const runtimeWindow = window as VoiceWindow;
+    const agent = runtimeWindow.pageAgent;
+    if (agent?.panel) {
+      agent.panel.collapse?.();
+      agent.panel.hide?.();
+    }
+    const panelNode = document.getElementById("page-agent-runtime_agent-panel");
+    if (panelNode) {
+      panelNode.style.display = "none";
+      panelNode.style.opacity = "0";
+    }
+  }
+
+  private resolveAgentInitErrorMessage(error: unknown) {
+    const raw = error instanceof Error ? error.message : String(error || "");
+    if (/Cannot read properties of undefined \(reading 'indexOf'\)/i.test(raw)) {
+      return "Page Agent 运行时依赖加载失败（旧版构建兼容问题），请升级 voice-page-agent 并重装依赖。";
+    }
+    return raw || "Page Agent 初始化失败";
   }
 
   private async executeVoiceCommand(rawCommand: string) {
@@ -590,4 +659,3 @@ export class VoicePageAgentController {
 export function createVoicePageAgent(options: VoicePageAgentOptions) {
   return new VoicePageAgentController(options);
 }
-

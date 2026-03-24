@@ -16,11 +16,15 @@ export type VoicePageAgentState = {
 };
 
 export type RuntimePageAgent = {
-  panel: {
+  panel?: {
     show: () => void;
     expand: () => void;
+    hide?: () => void;
+    collapse?: () => void;
   };
   execute: (task: string) => Promise<unknown>;
+  dispose?: (...args: unknown[]) => void;
+  disposed?: boolean;
   status?: "idle" | "running" | "completed" | "error" | string;
 };
 
