@@ -1,6 +1,6 @@
 {
   "name": "voice-page-agent",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "description": "Voice wake plugin for page-agent with Vue2/Vue3 compatibility.",
   "license": "MIT",
   "type": "module",
@@ -21,6 +21,13 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
+    "target:vue2": "node ./scripts/set-vue-target.mjs vue2",
+    "target:vue2.7": "node ./scripts/set-vue-target.mjs vue2.7",
+    "target:vue3": "node ./scripts/set-vue-target.mjs vue3",
+    "publish:vue2": "node ./scripts/publish-by-target.mjs vue2",
+    "publish:vue2.7": "node ./scripts/publish-by-target.mjs vue2.7",
+    "publish:vue3": "node ./scripts/publish-by-target.mjs vue3",
+    "release:multi": "node ./scripts/release-multi.mjs",
     "prepack": "npm run build"
   },
   "keywords": [
@@ -28,18 +35,14 @@
     "wake-word",
     "page-agent",
     "vue2",
+    "vue2.7",
     "vue3"
   ],
   "peerDependencies": {
-    "page-agent": ">=0.2.0",
-    "vue": "^2.6.14 || ^3.2.0"
-  },
-  "peerDependenciesMeta": {
-    "page-agent": {
-      "optional": false
-    }
+    "vue": ">=3.2.0 <4.0.0"
   },
   "dependencies": {
+    "page-agent": "^0.2.0",
     "vue-demi": "^0.14.10"
   },
   "devDependencies": {

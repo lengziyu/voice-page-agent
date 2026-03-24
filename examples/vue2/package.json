@@ -8,7 +8,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vue/composition-api": "^1.7.2",
     "page-agent": "latest",
     "voice-page-agent": "file:../..",
     "vue": "^2.7.16"
@@ -18,4 +17,3 @@
     "vite": "^5.4.11"
   }
 }
-

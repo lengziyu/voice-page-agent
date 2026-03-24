@@ -1,9 +1,7 @@
 import Vue from "vue";
-import VueCompositionApi from "@vue/composition-api";
 import VoicePageAgentPlugin from "voice-page-agent";
 import App from "./App.vue";
 
-Vue.use(VueCompositionApi);
 Vue.use(VoicePageAgentPlugin, {
   pageAgent: {
     baseURL: "https://page-ag-testing-ohftxirgbn.cn-shanghai.fcapp.run",
@@ -21,4 +19,3 @@ Vue.use(VoicePageAgentPlugin, {
 new Vue({
   render: (h) => h(App),
 }).$mount("#app");
-

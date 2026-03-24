@@ -9,6 +9,7 @@ export {
   createVoicePageAgentPlugin,
   useVoicePageAgent,
 } from "./plugin";
+export { default } from "./plugin";
 export { default as VoicePageAgentPlugin } from "./plugin";
 export type {
   ResolvedVoicePageAgentOptions,
