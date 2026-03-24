@@ -1,0 +1,50 @@
+{
+  "name": "voice-page-agent",
+  "version": "0.1.0",
+  "description": "Voice wake plugin for page-agent with Vue2/Vue3 compatibility.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "voice",
+    "wake-word",
+    "page-agent",
+    "vue2",
+    "vue3"
+  ],
+  "peerDependencies": {
+    "page-agent": ">=0.2.0",
+    "vue": "^2.6.14 || ^3.2.0"
+  },
+  "peerDependenciesMeta": {
+    "page-agent": {
+      "optional": false
+    }
+  },
+  "dependencies": {
+    "vue-demi": "^0.14.10"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.2"
+  }
+}
